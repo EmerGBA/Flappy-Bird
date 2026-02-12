@@ -1,6 +1,6 @@
 function love.load()
     wf = require 'libraries/windfield'
-    world = wf.newWorld(0, 100)
+    world = wf.newWorld(0, 1000)
 
     anim8 = require 'libraries/anim8'
 
@@ -9,7 +9,11 @@ function love.load()
     player.collider:setFixedRotation(true)
     player.x = 100
     player.y = 100
+    player.yvel = 0
     player.sprite = love.graphics.newImage('sprites/placeholder.png')
+
+    pipe = {}
+    
 end
 
 function love.update(dt)
@@ -23,8 +27,9 @@ function love.draw()
     love.graphics.draw(player.sprite, player.x, player.y, nil, nil, nil, 16, 16)
 end
 
---function love.keypressed(key)
-    --if key == 'space' then
-        --player:applyLinearImpulse(0, -5000)
-    --end
---end
+function love.mousepressed(x, y, button, istouch)
+    if button == 1 then
+        player.collider:setLinearVelocity(0, 0)
+        player.collider:applyLinearImpulse(0, -1250)
+    end
+end
