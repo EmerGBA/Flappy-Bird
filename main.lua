@@ -17,18 +17,21 @@ function love.load()
 
     pipe1 = {}
     pipe1.sprite = love.graphics.newImage('sprites/placeholder_pipe.png')
-    pipe1.x = 900
+    pipe1.x = 700
     pipe1.y = love.math.random(-550, -200)
-    pipe1.speed = 7
-    --pipe1.collider = world:newRectangleCollider(pipe1.x, pipe1.y, 80, 600)
-    --pipe1.collider:setFixedRotation(true)
-    --pipe1.collider:setType('static')
+    pipe1.w = 80
+    pipe1.h = 600
+    pipe1.collider = world:newRectangleCollider(pipe1.x, pipe1.y, 80, 600)
+    pipe1.collider:setFixedRotation(true)
+    pipe1.collider:setType('static')
 
     pipe2 = {}
     pipe2.sprite = love.graphics.newImage('sprites/placeholder_pipe.png')
-    pipe2.x = 900
+    pipe2.x = 700
     pipe2.y = pipe1.y + 750
-    pipe2.speed = 7
+    pipe2.collider = world:newRectangleCollider(pipe2.x, pipe2.y, 80, 600)
+    pipe2.collider:setFixedRotation(true)
+    pipe2.collider:setType('static')
 end
 
 function love.update(dt)
@@ -40,20 +43,23 @@ function love.update(dt)
     player.x = player.collider:getX()
     player.y = player.collider:getY()
 
-    --pipe1.collider:setLinearVelocity(vx, vy)
+    pipe1.collider:setLinearVelocity(vx, vy)
 
-    --pipe1.x = pipe1.collider:getX()
-    --pipe1.y = pipe1.collider:getY()
+    pipe1.x = pipe1.collider:getX()
+    pipe1.y = pipe1.collider:getY()
 
-    pipe1.x = pipe1.x - pipe1.speed
-    pipe2.x = pipe2.x - pipe2.speed
+    pipe2.x = pipe2.collider:getX()
+    pipe2.y = pipe2.collider:getY()
+
 end
 
 function love.draw()
     world:draw()
     love.graphics.draw(player.sprite, player.x, player.y, nil, nil, nil, 16, 16)
-    love.graphics.draw(pipe1.sprite, pipe1.x, pipe1.y)
-    love.graphics.draw(pipe2.sprite, pipe2.x, pipe2.y)
+    love.graphics.draw(pipe1.sprite, pipe1.x, pipe1.y, nil, nil, nil, 40, 300)
+    --love.graphics.draw(pipe1.sprite, pipe1.x - pipe1.w /2, pipe1.y - pipe1.h / 2)
+    --Above also works. Solution from Discord. Center is assumed under Windfield or something like that.)
+    love.graphics.draw(pipe2.sprite, pipe2.x, pipe2.y, nil, nil, nil, 40, 300)
 
     --This line prints the score variable to the screen but it looks awful so I'll fix that later.
     --love.graphics.print(score, 375, 25, nil, 6)
